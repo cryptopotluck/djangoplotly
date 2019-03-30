@@ -6,9 +6,10 @@ import os
 import numpy as np
 import plotly.graph_objs as go
 from plotly.offline import plot
+from pandas import DataFrame as df
 
 logger = logging.getLogger(__name__)
-
+from .data.geckomarketcap import getALL, Volume, MarketCapChange
 
 def plot1d():
     x_data = np.arange(0, 120, 0.1)
@@ -19,9 +20,9 @@ def plot1d():
 
     data = [trace1]
     layout = go.Layout(
-        # autosize=False,
-        # width=900,
-        # height=500,
+        autosize=False,
+         width=500,
+         height=500,
 
         xaxis=dict(
             autorange=True
@@ -35,6 +36,99 @@ def plot1d():
     logger.info("Plotting number of points {}.".format(len(x_data)))
     return plot_div
 
+def piechart():
+    labels = ['Oxygen', 'Hydrogen', 'Carbon_Dioxide', 'Nitrogen']
+    values = [4500, 2500, 1053, 500]
+
+    trace = go.Pie(labels=labels, values=values)
+
+    data=[trace]
+
+    fig = go.Figure(data=data,)
+    plot_div = plot(fig, output_type='div', include_plotlyjs=False)
+    logger.info("Plotting number of points {}.".format(len(labels)))
+    return plot_div
+
+def donutchart():
+
+
+    values =[]
+    df2 = df.copy(getALL())
+    for marketcap in df2['market_cap'].unique():
+        values.append(int(marketcap))
+
+    labels = []
+    for name in df2['name'].unique():
+        labels.append(str(name))
+
+    trace=go.Pie(labels=labels, values=values, domain={"x": [0, .48]}, hoverinfo='label+value', hole=0.4, )
+    layout= go.Layout(title='Total Market Cap of Crypto - Crypto Potluck Research',annotations=[{ "font": {
+                    "size": 20
+                },
+                "showarrow": False,
+                "text": "Cap",
+                "x": 0.21,
+                "y": 0.5}])
+    data=[trace]
+
+    fig = go.Figure(data=data, layout=layout)
+    plot_div = plot(fig, output_type='div', include_plotlyjs=False)
+    logger.info("Plotting number of points {}.".format(len(labels)))
+    return plot_div
+
+def volumedonutchart():
+
+
+    values =[]
+    df2 = df.copy(Volume())
+    for marketcap in df2['total_volume'].unique():
+        values.append(int(marketcap))
+
+    labels = []
+    for name in df2['name'].unique():
+        labels.append(str(name))
+
+    trace=go.Pie(labels=labels, values=values, domain={"x": [0, .48]}, hoverinfo='label+value', hole=0.4, )
+    layout= go.Layout(title='Volume Comparison - Crypto Potluck Research',annotations=[{ "font": {
+                    "size": 20
+                },
+                "showarrow": False,
+                "text": "volume",
+                "x": 0.19,
+                "y": 0.5}])
+    data=[trace]
+
+    fig = go.Figure(data=data, layout=layout)
+    plot_div = plot(fig, output_type='div', include_plotlyjs=False)
+    logger.info("Plotting number of points {}.".format(len(labels)))
+    return plot_div
+
+def MarketChangedonutchart():
+
+
+    values =[]
+    df2 = df.copy(MarketCapChange())
+    for marketcap in df2['market_cap_change_percentage_24h'].unique():
+        values.append(int(marketcap))
+
+    labels = []
+    for name in df2['name'].unique():
+        labels.append(str(name))
+
+    trace=go.Pie(labels=labels, values=values, domain={"x": [0, .48]}, hoverinfo='label+value', hole=0.4, )
+    layout= go.Layout(title='% Market Cap Change 24h - Crypto Potluck Research',annotations=[{ "font": {
+                    "size": 14
+                },
+                "showarrow": False,
+                "text": "24h Change",
+                "x": 0.18,
+                "y": 0.5}])
+    data=[trace]
+
+    fig = go.Figure(data=data, layout=layout)
+    plot_div = plot(fig, output_type='div', include_plotlyjs=False)
+    logger.info("Plotting number of points {}.".format(len(labels)))
+    return plot_div
 
 def plot2d():
     t = np.linspace(-1, 1, 2000)

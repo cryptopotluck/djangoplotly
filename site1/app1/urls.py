@@ -16,6 +16,9 @@ urlpatterns = [
     url(r'^plot_live/$', views.PlotLiveView.as_view(), name='plot_live'),
     url(r'^plot_live_update/$', views.plot_live_update, name='plot_live_update'),
     url(r'^plot3d_scatter/$', views.Plot3DScatterView.as_view(), name='plot3d_scatter'),
-
+    url(r'^pie/$', views.PlotPie.as_view(), name='pie'),
+    url(r'^donut/$', views.PlotDonut.as_view(), name='donut'),
+    url(r'^vdonut/$', views.PlotVolume.as_view(), name='vdonut'),
+    url(r'^24donut/$', views.PlotMarketChange.as_view(), name='24donut'),
 
 ]

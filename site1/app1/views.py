@@ -1,4 +1,3 @@
-
 import logging
 
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
@@ -95,6 +94,7 @@ def plot_live_update(request):
     else:
         return HttpResponseBadRequest()
 
+
 class Plot3DScatterView(TemplateView):
     template_name = "plot.html"
 
@@ -102,4 +102,49 @@ class Plot3DScatterView(TemplateView):
         # Call the base implementation first to get a context
         context = super(Plot3DScatterView, self).get_context_data(**kwargs)
         context['plot'] = plots.plot3D_scatter
+        return context
+
+
+class PlotPie(TemplateView):
+    template_name = "plot.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PlotPie, self).get_context_data(**kwargs)
+        context = {
+            'plot': plots.piechart,
+        }
+
+        return context
+
+class PlotDonut(TemplateView):
+    template_name = "plot.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PlotDonut, self).get_context_data(**kwargs)
+        context = {
+            'plot': plots.donutchart,
+        }
+
+        return context
+
+class PlotVolume(TemplateView):
+    template_name = "plot.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PlotVolume, self).get_context_data(**kwargs)
+        context = {
+            'plot': plots.volumedonutchart,
+        }
+
+        return context
+
+class PlotMarketChange(TemplateView):
+    template_name = "plot.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PlotMarketChange, self).get_context_data(**kwargs)
+        context = {
+            'plot': plots.MarketChangedonutchart,
+        }
+
         return context
