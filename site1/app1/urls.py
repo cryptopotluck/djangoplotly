@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^donut/$', views.PlotDonut.as_view(), name='donut'),
     url(r'^vdonut/$', views.PlotVolume.as_view(), name='vdonut'),
     url(r'^24donut/$', views.PlotMarketChange.as_view(), name='24donut'),
+    url(r'^LTC/$', views.Plot3LTCView.as_view(), name='LTC'),
 
 ]
